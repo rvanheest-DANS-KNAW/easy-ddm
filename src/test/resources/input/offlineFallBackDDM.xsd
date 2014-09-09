@@ -182,7 +182,7 @@
     <!-- =================================================================================== -->
     <xs:simpleType name="EasyAccessCategoryType">
         <xs:restriction base="xs:NMTOKEN">
-            <xs:enumeration value="OPEN_ACCESS">
+            <xs:enumeration value="OPEN_ACCESS_FOR_REGISTERED_USERS">
                 <xs:annotation>
                     <xs:documentation>
                         Unrestricted access for all registered EASY users.
