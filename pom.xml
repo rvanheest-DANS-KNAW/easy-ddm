@@ -26,7 +26,8 @@
     <groupId>nl.knaw.dans.easy</groupId>
     <artifactId>ddm</artifactId>
     <version>2.x-SNAPSHOT</version>
-    <name>Dans Dataset Metadata Library</name>
+    <name>Dans Dataset Metadata Library (DDM)</name>
+    <inceptionYear>2014</inceptionYear>
     <dependencies>
         <dependency>
             <groupId>nl.knaw.dans.easy</groupId>
@@ -145,7 +146,8 @@
                                 <email>info@dans.knaw.nl</email>
                             </properties>
                             <excludes>
-                                <exclude>**</exclude>
+                                <exclude>*.html</exclude>
+                                <exclude>*.xml</exclude>
                             </excludes>
                         </configuration>
                     </execution>

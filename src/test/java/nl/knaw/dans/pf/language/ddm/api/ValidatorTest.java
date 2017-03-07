@@ -1,3 +1,10 @@
+/**
+ * Copyright (C) ${project.inceptionYear} DANS - Data Archiving and Networked Services (info@dans.knaw.nl) Licensed under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed
+ * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions
+ * and limitations under the License.
+ */
 package nl.knaw.dans.pf.language.ddm.api;
 
 import static nl.knaw.dans.pf.language.ddm.api.SpecialValidator.RECENT_SCHEMAS;
@@ -19,8 +26,12 @@ import nl.knaw.dans.pf.language.xml.validation.XMLErrorHandler;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ValidatorTest {
+
+    private static final Logger logger = LoggerFactory.getLogger(ValidatorTest.class);
 
     @BeforeClass
     public static void externalSchemaCheck() {
@@ -32,8 +43,8 @@ public class ValidatorTest {
     public void testValidation() throws Exception {
         Source xmlSource = new StreamSource(new File("src/test/resources/input/spatial.xml"));
         XMLErrorHandler handler = new SpecialValidator().validate(xmlSource);
-        System.err.println(handler.getMessages());
-        System.err.println(handler.passed());
+        logger.info(handler.getMessages());
+        logger.info(handler.passed() + "");
     }
 
     @Test
