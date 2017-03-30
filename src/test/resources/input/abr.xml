@@ -34,6 +34,7 @@
 		<dcterms:description>tv serie</dcterms:description>
 		<dc:creator>meneer de uil</dc:creator>
 		<ddm:created>2013</ddm:created>
+		<ddm:available>2014</ddm:available>
 		<ddm:audience>D41500</ddm:audience>
 		<ddm:accessRights>OPEN_ACCESS_FOR_REGISTERED_USERS</ddm:accessRights>
 	</ddm:profile>

@@ -25,11 +25,11 @@
     </parent>
     <groupId>nl.knaw.dans.easy</groupId>
     <artifactId>ddm</artifactId>
-    <version>333.x-SNAPSHOT</version>
+    <version>3.x-SNAPSHOT</version>
     <name>Dans Dataset Metadata Library (DDM)</name>
     <inceptionYear>2014</inceptionYear>
     <properties>
-        <easy.schema.version>1.6</easy.schema.version>
+        <easy.schema.version>1.8</easy.schema.version>
     </properties>
     <scm>
         <developerConnection>scm:git:https://github.com/DANS-KNAW/${project.artifactId}</developerConnection>

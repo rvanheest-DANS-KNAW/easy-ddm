@@ -55,6 +55,7 @@
 			</dcx-dai:author>
 		</dcx-dai:creatorDetails>
 		<ddm:created>2013</ddm:created>
+		<ddm:available>2013</ddm:available>
 		<ddm:audience>D41500</ddm:audience>
 		<ddm:accessRights>OPEN_ACCESS_FOR_REGISTERED_USERS</ddm:accessRights>
 	</ddm:profile>

@@ -27,6 +27,7 @@
 		<xdcterms:description>tv serie</xdcterms:description>
 		<xdc:creator>meneer de uil</xdc:creator>
 		<xddm:created>2013</xddm:created>
+		<xddm:available>2014</xddm:available>
 		<xddm:audience>D41500</xddm:audience>
 		<xddm:accessRights>OPEN_ACCESS_FOR_REGISTERED_USERS</xddm:accessRights>
 	</xddm:profile>
