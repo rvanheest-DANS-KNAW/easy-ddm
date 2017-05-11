@@ -48,7 +48,6 @@ import nl.knaw.dans.pf.language.ddm.handlers.DcSourceHandler;
 import nl.knaw.dans.pf.language.ddm.handlers.DcTypeHandler;
 import nl.knaw.dans.pf.language.ddm.handlers.DescriptionHandler;
 import nl.knaw.dans.pf.language.ddm.handlers.EasSpatialHandler;
-import nl.knaw.dans.pf.language.ddm.handlers.IdentifierHandler;
 import nl.knaw.dans.pf.language.ddm.handlers.SimpleContributorHandler;
 import nl.knaw.dans.pf.language.ddm.handlers.SimpleCreatorHandler;
 import nl.knaw.dans.pf.language.ddm.handlers.SkippedFieldHandler;
@@ -57,6 +56,8 @@ import nl.knaw.dans.pf.language.ddm.handlers.TermsRightsHolderHandler;
 import nl.knaw.dans.pf.language.ddm.handlers.TermsSpatialHandler;
 import nl.knaw.dans.pf.language.ddm.handlers.TermsTemporalHandler;
 import nl.knaw.dans.pf.language.ddm.handlers.TitleHandler;
+import nl.knaw.dans.pf.language.ddm.handlers.ArchisIdentifierHandler;
+import nl.knaw.dans.pf.language.ddm.handlers.IdentifierHandler;
 import nl.knaw.dans.pf.language.ddm.handlertypes.BasicDateHandler;
 import nl.knaw.dans.pf.language.ddm.handlertypes.BasicIdentifierHandler;
 import nl.knaw.dans.pf.language.ddm.handlertypes.BasicStringHandler;
@@ -123,7 +124,7 @@ public class Ddm2EmdHandlerMap implements CrosswalkHandlerMap<EasyMetadata> {
             putAudienceHandlers();
             putAuthorHandlers();
             putDateHandlers();
-            putRalationHandlers();
+            putRelationHandlers();
             putAboutHandlers();
             putMiscellaneousHandlers();
 
@@ -197,7 +198,7 @@ public class Ddm2EmdHandlerMap implements CrosswalkHandlerMap<EasyMetadata> {
         map.put("/dcx-dai:contributor", new DaiContributorHandler());
     }
 
-    private void putRalationHandlers() {
+    private void putRelationHandlers() {
         final BasicIdentifierHandler dcRelationHandler = new DcRelationHandler();
         map.put("/ddm:relation", dcRelationHandler);
         map.put("/dc:relation", dcRelationHandler);
@@ -329,8 +330,20 @@ public class Ddm2EmdHandlerMap implements CrosswalkHandlerMap<EasyMetadata> {
         // EasyMetadataImpl: EmdOther emdOther;
 
         final BasicIdentifierHandler identifierHandler = new IdentifierHandler();
+        final BasicIdentifierHandler isbnIdentifierHandler = new IdentifierHandler("ISBN");
+        final BasicIdentifierHandler issnIdentifierHandler = new IdentifierHandler("ISSN");
+        final BasicIdentifierHandler nwoIdentifierHandler = new IdentifierHandler("NWO-projectnummer");
+        final BasicIdentifierHandler archisIdentifierHandler = new ArchisIdentifierHandler();
         map.put("/dc:identifier", identifierHandler);
         map.put("/dcterms:identifier", identifierHandler);
+        map.put("ISBN/dc:identifier", isbnIdentifierHandler);
+        map.put("ISBN/dcterms:identifier", isbnIdentifierHandler);
+        map.put("ISSN/dc:identifier", issnIdentifierHandler);
+        map.put("ISSN/dcterms:identifier", issnIdentifierHandler);
+        map.put("NWO-PROJECTNR/dc:identifier", nwoIdentifierHandler);
+        map.put("NWO-PROJECTNR/dcterms:identifier", nwoIdentifierHandler);
+        map.put("ARCHIS-ZAAK-IDENTIFICATIE/dc:identifier", archisIdentifierHandler);
+        map.put("ARCHIS-ZAAK-IDENTIFICATIE/dcterms:identifier", archisIdentifierHandler);
         // <ref-panelId>dc.identifier</ref-panelId>
         // EasyMetadataImpl: EmdIdentifier emdIdentifier;
         // Not supported By DDM:

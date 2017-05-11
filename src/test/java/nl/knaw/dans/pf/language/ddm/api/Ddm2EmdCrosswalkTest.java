@@ -31,6 +31,170 @@ import static org.junit.Assert.assertThat;
 public class Ddm2EmdCrosswalkTest {
 
     @Test
+    public void identifierWithIdTypeISBN() throws Exception {
+        // @formatter:off
+        String ddm = "<?xml version='1.0' encoding='utf-8'?><ddm:DDM"
+            + "  xmlns:dc='http://purl.org/dc/elements/1.1/'"
+            + "  xmlns:ddm='http://easy.dans.knaw.nl/schemas/md/ddm/'"
+            + "  xmlns:dcterms='http://purl.org/dc/terms/'"
+            + "  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>"
+            + "  <ddm:dcmiMetadata>"
+            + "    <dc:identifier xsi:type='id-type:ISBN'>123456</dc:identifier>"
+            + "  </ddm:dcmiMetadata>"
+            + "</ddm:DDM>";
+        // @formatter:on
+
+        DefaultElement top = firstEmdElementFrom(ddm);
+        assertThat(top.elements().size(), is(1));
+        assertThat(top.getQualifiedName(), is("emd:identifier"));
+
+        DefaultElement sub = (DefaultElement) top.elements().get(0);
+        assertThat(sub.getQualifiedName(), is("dc:identifier"));
+        assertThat(sub.getText(), is("123456"));
+        assertThat(sub.attributeCount(), is(1));
+        assertThat(sub.attribute("scheme").getQualifiedName(), is("eas:scheme"));
+        assertThat(sub.attribute("scheme").getValue(), is("ISBN"));
+    }
+
+    @Test
+    public void identifierWithIdTypeISSN() throws Exception {
+        // @formatter:off
+        String ddm = "<?xml version='1.0' encoding='utf-8'?><ddm:DDM"
+            + "  xmlns:dc='http://purl.org/dc/elements/1.1/'"
+            + "  xmlns:ddm='http://easy.dans.knaw.nl/schemas/md/ddm/'"
+            + "  xmlns:dcterms='http://purl.org/dc/terms/'"
+            + "  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>"
+            + "  <ddm:dcmiMetadata>"
+            + "    <dc:identifier xsi:type='id-type:ISSN'>123456</dc:identifier>"
+            + "  </ddm:dcmiMetadata>"
+            + "</ddm:DDM>";
+        // @formatter:on
+
+        DefaultElement top = firstEmdElementFrom(ddm);
+        assertThat(top.elements().size(), is(1));
+        assertThat(top.getQualifiedName(), is("emd:identifier"));
+
+        DefaultElement sub = (DefaultElement) top.elements().get(0);
+        assertThat(sub.getQualifiedName(), is("dc:identifier"));
+        assertThat(sub.getText(), is("123456"));
+        assertThat(sub.attributeCount(), is(1));
+        assertThat(sub.attribute("scheme").getQualifiedName(), is("eas:scheme"));
+        assertThat(sub.attribute("scheme").getValue(), is("ISSN"));
+    }
+
+    @Test
+    public void identifierWithIdTypeNwoProjectNummer() throws Exception {
+        // @formatter:off
+        String ddm = "<?xml version='1.0' encoding='utf-8'?><ddm:DDM"
+            + "  xmlns:dc='http://purl.org/dc/elements/1.1/'"
+            + "  xmlns:ddm='http://easy.dans.knaw.nl/schemas/md/ddm/'"
+            + "  xmlns:dcterms='http://purl.org/dc/terms/'"
+            + "  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>"
+            + "  <ddm:dcmiMetadata>"
+            + "    <dc:identifier xsi:type='id-type:NWO-PROJECTNR'>123456</dc:identifier>"
+            + "  </ddm:dcmiMetadata>"
+            + "</ddm:DDM>";
+        // @formatter:on
+
+        DefaultElement top = firstEmdElementFrom(ddm);
+        assertThat(top.elements().size(), is(1));
+        assertThat(top.getQualifiedName(), is("emd:identifier"));
+
+        DefaultElement sub = (DefaultElement) top.elements().get(0);
+        assertThat(sub.getQualifiedName(), is("dc:identifier"));
+        assertThat(sub.getText(), is("123456"));
+        assertThat(sub.attributeCount(), is(1));
+        assertThat(sub.attribute("scheme").getQualifiedName(), is("eas:scheme"));
+        assertThat(sub.attribute("scheme").getValue(), is("NWO-projectnummer"));
+    }
+
+    @Test
+    public void identifierWithIdTypeOldArchis() throws Exception {
+        // new archis number if it has less than 10 digits
+        // @formatter:off
+        String ddm = "<?xml version='1.0' encoding='utf-8'?><ddm:DDM"
+            + "  xmlns:dc='http://purl.org/dc/elements/1.1/'"
+            + "  xmlns:ddm='http://easy.dans.knaw.nl/schemas/md/ddm/'"
+            + "  xmlns:dcterms='http://purl.org/dc/terms/'"
+            + "  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>"
+            + "  <ddm:dcmiMetadata>"
+            + "    <dc:identifier xsi:type='id-type:ARCHIS-ZAAK-IDENTIFICATIE'>123456789</dc:identifier>"
+            + "  </ddm:dcmiMetadata>"
+            + "</ddm:DDM>";
+        // @formatter:on
+
+        DefaultElement top = firstEmdElementFrom(ddm);
+        assertThat(top.elements().size(), is(1));
+        assertThat(top.getQualifiedName(), is("emd:identifier"));
+
+        DefaultElement sub = (DefaultElement) top.elements().get(0);
+        assertThat(sub.getQualifiedName(), is("dc:identifier"));
+        assertThat(sub.getText(), is("123456789"));
+        assertThat(sub.attributeCount(), is(3));
+        assertThat(sub.attribute("scheme").getQualifiedName(), is("eas:scheme"));
+        assertThat(sub.attribute("scheme").getValue(), is("Archis_onderzoek_m_nr"));
+        assertThat(sub.attribute("schemeId").getQualifiedName(), is("eas:schemeId"));
+        assertThat(sub.attribute("schemeId").getValue(), is("archaeology.dc.identifier"));
+        assertThat(sub.attribute("identification-system").getQualifiedName(), is("eas:identification-system"));
+        assertThat(sub.attribute("identification-system").getValue(), is("http://archis2.archis.nl"));
+    }
+
+    @Test
+    public void identifierWithIdTypeNewArchis() throws Exception {
+        // new archis number if it has exactly 10 digits
+        // @formatter:off
+        String ddm = "<?xml version='1.0' encoding='utf-8'?><ddm:DDM"
+            + "  xmlns:dc='http://purl.org/dc/elements/1.1/'"
+            + "  xmlns:ddm='http://easy.dans.knaw.nl/schemas/md/ddm/'"
+            + "  xmlns:dcterms='http://purl.org/dc/terms/'"
+            + "  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>"
+            + "  <ddm:dcmiMetadata>"
+            + "    <dc:identifier xsi:type='id-type:ARCHIS-ZAAK-IDENTIFICATIE'>0123456789</dc:identifier>"
+            + "  </ddm:dcmiMetadata>"
+            + "</ddm:DDM>";
+        // @formatter:on
+
+        DefaultElement top = firstEmdElementFrom(ddm);
+        assertThat(top.elements().size(), is(1));
+        assertThat(top.getQualifiedName(), is("emd:identifier"));
+
+        DefaultElement sub = (DefaultElement) top.elements().get(0);
+        assertThat(sub.getQualifiedName(), is("dc:identifier"));
+        assertThat(sub.getText(), is("0123456789"));
+        assertThat(sub.attributeCount(), is(3));
+        assertThat(sub.attribute("scheme").getQualifiedName(), is("eas:scheme"));
+        assertThat(sub.attribute("scheme").getValue(), is("Archis_onderzoek_m_nr"));
+        assertThat(sub.attribute("schemeId").getQualifiedName(), is("eas:schemeId"));
+        assertThat(sub.attribute("schemeId").getValue(), is("archaeology.dc.identifier"));
+        assertThat(sub.attribute("identification-system").getQualifiedName(), is("eas:identification-system"));
+        assertThat(sub.attribute("identification-system").getValue(), is("https://archis.cultureelerfgoed.nl"));
+    }
+
+    @Test
+    public void identifierWithoutIdType() throws Exception {
+        // @formatter:off
+        String ddm = "<?xml version='1.0' encoding='utf-8'?><ddm:DDM"
+            + "  xmlns:dc='http://purl.org/dc/elements/1.1/'"
+            + "  xmlns:ddm='http://easy.dans.knaw.nl/schemas/md/ddm/'"
+            + "  xmlns:dcterms='http://purl.org/dc/terms/'"
+            + "  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>"
+            + "  <ddm:dcmiMetadata>"
+            + "    <dc:identifier>ds1</dc:identifier>"
+            + "  </ddm:dcmiMetadata>"
+            + "</ddm:DDM>";
+        // @formatter:on
+
+        DefaultElement top = firstEmdElementFrom(ddm);
+        assertThat(top.elements().size(), is(1));
+        assertThat(top.getQualifiedName(), is("emd:identifier"));
+
+        DefaultElement sub = (DefaultElement) top.elements().get(0);
+        assertThat(sub.getQualifiedName(), is("dc:identifier"));
+        assertThat(sub.getText(), is("ds1"));
+        assertThat(sub.attributeCount(), is(0));
+    }
+
+    @Test
     public void formatWithSchemeAndId() throws Exception {
         // @formatter:off
         String ddm = "<?xml version='1.0' encoding='utf-8'?><ddm:DDM"

@@ -15,33 +15,36 @@
  */
 package nl.knaw.dans.pf.language.ddm.handlers;
 
-import nl.knaw.dans.pf.language.ddm.handlertypes.BasicIdentifierHandler;
 import nl.knaw.dans.pf.language.emd.types.BasicIdentifier;
 import org.xml.sax.SAXException;
 
-public class IdentifierHandler extends BasicIdentifierHandler {
+import java.net.URI;
+import java.net.URISyntaxException;
 
-    private final String scheme;
+public class ArchisIdentifierHandler extends IdentifierHandler {
 
-    public IdentifierHandler() {
-        this(null);
-    }
-
-    public IdentifierHandler(String scheme) {
-        this.scheme = scheme;
+    public ArchisIdentifierHandler() {
+        super("Archis_onderzoek_m_nr");
     }
 
     @Override
-    public void finishElement(final String uri, final String localName) throws SAXException {
-        final BasicIdentifier identifier = createIdentifier(uri, localName);
-        if (identifier != null) {
-            this.setScheme(identifier);
-            getTarget().getEmdIdentifier().add(identifier);
-        }
-    }
-
     protected void setScheme(BasicIdentifier identifier) throws SAXException {
-        if (scheme != null)
-            identifier.setScheme(scheme);
+        super.setScheme(identifier);
+
+        identifier.setSchemeId("archaeology.dc.identifier");
+
+        try {
+            String value = identifier.getValue();
+            if (value.length() < 10) {
+                identifier.setIdentificationSystem(new URI("http://archis2.archis.nl"));
+            } else if (value.length() == 10) {
+                identifier.setIdentificationSystem(new URI("https://archis.cultureelerfgoed.nl"));
+            } else {
+                throw new SAXException("identifier '" + value + "' should have 10 or less characters");
+            }
+        }
+        catch (URISyntaxException e) {
+            throw new SAXException(e);
+        }
     }
 }
