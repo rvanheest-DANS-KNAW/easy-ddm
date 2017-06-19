@@ -276,7 +276,7 @@ public class Ddm2EmdCrosswalkTest {
 
         DefaultElement sub = (DefaultElement) top.elements().get(0);
         assertThat(sub.getQualifiedName(), is("dc:language"));
-        assertThat(sub.getText(), is("nld"));
+        assertThat(sub.getText(), is("dut/nld"));
         assertThat(sub.attributeCount(), is(2));
         assertThat(sub.attribute("scheme").getQualifiedName(), is("eas:scheme"));
         assertThat(sub.attribute("scheme").getValue(), is("ISO 639"));

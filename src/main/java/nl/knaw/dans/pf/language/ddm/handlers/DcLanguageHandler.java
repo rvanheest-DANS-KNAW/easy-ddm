@@ -25,9 +25,28 @@ public class DcLanguageHandler extends BasicStringHandler {
     protected void finishElement(final String uri, final String localName) throws SAXException {
         BasicString basicString = createBasicString(uri, localName);
         if (basicString != null) {
-            basicString.setScheme("ISO 639");
-            basicString.setSchemeId("common.dc.language");
+            String emdLanguageCode = getEmdLanguageCode(basicString.getValue());
+            if (emdLanguageCode != null) {
+                basicString.setValue(emdLanguageCode);
+                basicString.setScheme("ISO 639");
+                basicString.setSchemeId("common.dc.language");
+            }
             getTarget().getEmdLanguage().getDcLanguage().add(basicString);
         }
+    }
+
+    private String getEmdLanguageCode(final String language) {
+        String code = null;
+
+        if ("dut".equals(language) || "nld".equals(language))
+            code = "dut/nld";
+        else if ("deu".equals(language) || "ger".equals(language))
+            code = "ger/deu";
+        else if ("fra".equals(language) || "fre".equals(language))
+            code = "fre/fra";
+        else if ("eng".equals(language))
+            code = "eng";
+
+        return code;
     }
 }
