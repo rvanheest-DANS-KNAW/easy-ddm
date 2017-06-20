@@ -257,7 +257,7 @@ public class Ddm2EmdCrosswalkTest {
     }
 
     @Test
-    public void languageWithSchemeAndId() throws Exception {
+    public void languageWithSchemeAndIdToEmdCode() throws Exception {
         // @formatter:off
         String ddm = "<?xml version='1.0' encoding='utf-8'?><ddm:DDM"
             + "  xmlns:dc='http://purl.org/dc/elements/1.1/'"
@@ -282,6 +282,30 @@ public class Ddm2EmdCrosswalkTest {
         assertThat(sub.attribute("scheme").getValue(), is("ISO 639"));
         assertThat(sub.attribute("schemeId").getQualifiedName(), is("eas:schemeId"));
         assertThat(sub.attribute("schemeId").getValue(), is("common.dc.language"));
+    }
+
+    @Test
+    public void languageWithSchemeAndIdButNoEmdCode() throws Exception {
+        // @formatter:off
+        String ddm = "<?xml version='1.0' encoding='utf-8'?><ddm:DDM"
+            + "  xmlns:dc='http://purl.org/dc/elements/1.1/'"
+            + "  xmlns:ddm='http://easy.dans.knaw.nl/schemas/md/ddm/'"
+            + "  xmlns:dcterms='http://purl.org/dc/terms/'"
+            + "  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>"
+            + "  <ddm:dcmiMetadata>"
+            + "    <dc:language xsi:type='dcterms:ISO639-2'>gre</dc:language>"
+            + "  </ddm:dcmiMetadata>"
+            + "</ddm:DDM>";
+        // @formatter:on
+
+        DefaultElement top = firstEmdElementFrom(ddm);
+        assertThat(top.elements().size(), is(1));
+        assertThat(top.getQualifiedName(), is("emd:language"));
+
+        DefaultElement sub = (DefaultElement) top.elements().get(0);
+        assertThat(sub.getQualifiedName(), is("dc:language"));
+        assertThat(sub.getText(), is("gre"));
+        assertThat(sub.attributeCount(), is(0));
     }
 
     @Test
