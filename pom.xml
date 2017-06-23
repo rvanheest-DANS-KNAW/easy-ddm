@@ -42,13 +42,14 @@
             <artifactId>emd</artifactId>
             <version>${easy.emd.version}</version>
         </dependency>
-        <dependency>
-            <groupId>nl.knaw.dans.easy</groupId>
-            <artifactId>easy-schema</artifactId>
-            <version>${easy.schema.version}</version>
-            <!-- test resources for the SpecialValidator are copied with maven plugin -->
-            <scope>test</scope>
-        </dependency>
+        <!--<dependency>-->
+            <!--&lt;!&ndash; Meant to build easy-schema before ddm but caused .m2 not found problems &ndash;&gt;-->
+            <!--<groupId>nl.knaw.dans.easy</groupId>-->
+            <!--<artifactId>easy-schema</artifactId>-->
+            <!--<version>${easy.schema.version}</version>-->
+            <!--&lt;!&ndash; test resources for the SpecialValidator are copied with maven plugin &ndash;&gt;-->
+            <!--<scope>test</scope>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>nl.knaw.dans.easy</groupId>
             <artifactId>xml</artifactId>
