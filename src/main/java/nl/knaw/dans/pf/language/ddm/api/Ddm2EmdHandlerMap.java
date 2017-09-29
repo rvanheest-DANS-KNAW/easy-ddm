@@ -35,6 +35,7 @@ import nl.knaw.dans.pf.language.ddm.datehandlers.TermsModiefiedHandler;
 import nl.knaw.dans.pf.language.ddm.datehandlers.TermsValidHandler;
 import nl.knaw.dans.pf.language.ddm.handlermaps.NameSpace;
 import nl.knaw.dans.pf.language.ddm.handlers.AccessRightsHandler;
+import nl.knaw.dans.pf.language.ddm.handlers.AlternativeTitleHandler;
 import nl.knaw.dans.pf.language.ddm.handlers.AudienceHandler;
 import nl.knaw.dans.pf.language.ddm.handlers.ContributorDetailsHandler;
 import nl.knaw.dans.pf.language.ddm.handlers.CreatorDetailsHandler;
@@ -335,7 +336,7 @@ public class Ddm2EmdHandlerMap implements CrosswalkHandlerMap<EasyMetadata> {
         map.put("/dc:title", titleHandler);
         map.put("/dcterms:title", titleHandler);
         // EasyMetadataImpl: EmdTitle emdTitle;
-        map.put("/dcterms:alternative", titleHandler);
+        map.put("/dcterms:alternative", new AlternativeTitleHandler());
         // <ref-panelId>dcterms.alternative</ref-panelId>
 
         final BasicStringHandler descriptionHandler = new DescriptionHandler();
