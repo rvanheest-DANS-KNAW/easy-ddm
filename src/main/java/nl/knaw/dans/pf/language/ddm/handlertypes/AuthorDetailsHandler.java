@@ -47,6 +47,8 @@ public abstract class AuthorDetailsHandler extends DaiAuthorHandler {
                 setDAI(author, value); // TODO dai system as attribute?
             else if ("insertions".equals(localName))
                 author.setPrefix(value);
+            else if ("role".equals(localName))
+                author.setRole(new Author.Role(value));
         }
     }
 }

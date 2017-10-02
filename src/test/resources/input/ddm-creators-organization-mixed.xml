@@ -24,7 +24,7 @@
 	xmlns:ddm='http://easy.dans.knaw.nl/schemas/md/ddm/' 
 	xmlns:dcterms='http://purl.org/dc/terms/'
 	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-	xsi:schemaLocation='http://easy.dans.knaw.nl/schemas/md/ddm/ http://easy.dans.knaw.nl/schemas/md/2014/09/ddm.xsd
+	xsi:schemaLocation='http://easy.dans.knaw.nl/schemas/md/ddm/ http://easy.dans.knaw.nl/schemas/md/2017/09/ddm.xsd
 	                    http://purl.org/dc/terms/ file://dcterms.xsd'>
 	<ddm:profile>
 		<dc:title>fabeltjeskrant</dc:title>
@@ -35,15 +35,17 @@
 				<dcx-dai:initials>A</dcx-dai:initials>
 				<dcx-dai:insertions>v.d</dcx-dai:insertions>
 				<dcx-dai:surname>Coen</dcx-dai:surname>
-				<dcx-dai:DAI>93313935x</dcx-dai:DAI> 
-				<dcx-dai:organization>
+                <dcx-dai:role>ContactPerson</dcx-dai:role>
+                <dcx-dai:DAI>93313935x</dcx-dai:DAI>
+                <dcx-dai:organization>
 					<dcx-dai:name xml:lang="en">KNAW</dcx-dai:name>
 				</dcx-dai:organization>
-			</dcx-dai:author>
+            </dcx-dai:author>
 		</dcx-dai:creatorDetails>
 		<dcx-dai:creatorDetails>
 			<dcx-dai:organization>
 				<dcx-dai:name xml:lang="en">DANS</dcx-dai:name>
+                <dcx-dai:role>Sponsor</dcx-dai:role>
 			</dcx-dai:organization>
 		</dcx-dai:creatorDetails>
 		<dcx-dai:creatorDetails>
