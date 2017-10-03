@@ -32,6 +32,31 @@ import static org.junit.Assert.assertTrue;
 public class Ddm2EmdCrosswalkTest {
 
     @Test
+    public void identifierWithIdTypeEDNA() throws Exception {
+        // @formatter:off
+        String ddm = "<?xml version='1.0' encoding='utf-8'?><ddm:DDM"
+            + "  xmlns:dc='http://purl.org/dc/elements/1.1/'"
+            + "  xmlns:ddm='http://easy.dans.knaw.nl/schemas/md/ddm/'"
+            + "  xmlns:dcterms='http://purl.org/dc/terms/'"
+            + "  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>"
+            + "  <ddm:dcmiMetadata>"
+            + "    <dc:identifier xsi:type='id-type:eDNA-project'>123456</dc:identifier>"
+            + "  </ddm:dcmiMetadata>"
+            + "</ddm:DDM>";
+        // @formatter:on
+
+        DefaultElement top = firstEmdElementFrom(ddm);
+        assertThat(top.elements().size(), is(1));
+        assertThat(top.getQualifiedName(), is("emd:identifier"));
+
+        DefaultElement sub = (DefaultElement) top.elements().get(0);
+        assertThat(sub.getQualifiedName(), is("dc:identifier"));
+        assertThat(sub.getText(), is("123456"));
+        assertThat(sub.attributeCount(), is(1));
+        assertThat(sub.attribute("scheme").getQualifiedName(), is("eas:scheme"));
+        assertThat(sub.attribute("scheme").getValue(), is("eDNA-project"));
+    }
+
     public void alternativeTitle() throws Exception {
         // @formatter:off
         String ddm = "<?xml version='1.0' encoding='utf-8'?><ddm:DDM"

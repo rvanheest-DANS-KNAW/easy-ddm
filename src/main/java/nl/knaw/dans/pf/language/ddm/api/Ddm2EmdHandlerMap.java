@@ -362,6 +362,7 @@ public class Ddm2EmdHandlerMap implements CrosswalkHandlerMap<EasyMetadata> {
         final BasicIdentifierHandler isbnIdentifierHandler = new IdentifierHandler("ISBN");
         final BasicIdentifierHandler issnIdentifierHandler = new IdentifierHandler("ISSN");
         final BasicIdentifierHandler nwoIdentifierHandler = new IdentifierHandler("NWO-projectnummer");
+        final BasicIdentifierHandler eDNAprojectIdentifierHandler = new IdentifierHandler("eDNA-project");
         final BasicIdentifierHandler archisIdentifierHandler = new ArchisIdentifierHandler();
         map.put("/dc:identifier", identifierHandler);
         map.put("/dcterms:identifier", identifierHandler);
@@ -373,6 +374,8 @@ public class Ddm2EmdHandlerMap implements CrosswalkHandlerMap<EasyMetadata> {
         map.put("NWO-PROJECTNR/dcterms:identifier", nwoIdentifierHandler);
         map.put("ARCHIS-ZAAK-IDENTIFICATIE/dc:identifier", archisIdentifierHandler);
         map.put("ARCHIS-ZAAK-IDENTIFICATIE/dcterms:identifier", archisIdentifierHandler);
+        map.put("eDNA-project/dc:identifier", eDNAprojectIdentifierHandler);
+        map.put("eDNA-project/dcterms:identifier", eDNAprojectIdentifierHandler);
         // <ref-panelId>dc.identifier</ref-panelId>
         // EasyMetadataImpl: EmdIdentifier emdIdentifier;
         // Not supported By DDM:
