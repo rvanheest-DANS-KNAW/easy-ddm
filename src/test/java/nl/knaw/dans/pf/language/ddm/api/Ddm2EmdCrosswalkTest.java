@@ -31,9 +31,9 @@ import static org.junit.Assert.assertTrue;
 /** Without validation, so pure crosswalk tests that execute without web access. */
 public class Ddm2EmdCrosswalkTest {
 
-  @Test
-  public void alternativeTitle() throws Exception {
-    // @formatter:off
+    @Test
+    public void alternativeTitle() throws Exception {
+        // @formatter:off
         String ddm = "<?xml version='1.0' encoding='utf-8'?><ddm:DDM"
             + "  xmlns:dc='http://purl.org/dc/elements/1.1/'"
             + "  xmlns:ddm='http://easy.dans.knaw.nl/schemas/md/ddm/'"
@@ -45,15 +45,15 @@ public class Ddm2EmdCrosswalkTest {
             + "</ddm:DDM>";
         // @formatter:on
 
-    DefaultElement top = firstEmdElementFrom(ddm);
-    assertThat(top.elements().size(), is(1));
-    assertThat(top.getQualifiedName(), is("emd:title"));
+        DefaultElement top = firstEmdElementFrom(ddm);
+        assertThat(top.elements().size(), is(1));
+        assertThat(top.getQualifiedName(), is("emd:title"));
 
-    DefaultElement sub = (DefaultElement) top.elements().get(0);
-    assertThat(sub.getQualifiedName(), is("dct:alternative"));
-    assertThat(sub.getText(), is("an alternative title"));
-    assertThat(sub.attributeCount(), is(0));
-  }
+        DefaultElement sub = (DefaultElement) top.elements().get(0);
+        assertThat(sub.getQualifiedName(), is("dct:alternative"));
+        assertThat(sub.getText(), is("an alternative title"));
+        assertThat(sub.attributeCount(), is(0));
+    }
 
     @Test
     public void identifierWithIdTypeISBN() throws Exception {
