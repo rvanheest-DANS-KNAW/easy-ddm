@@ -29,8 +29,8 @@
     <name>Dans Dataset Metadata Library (DDM)</name>
     <inceptionYear>2014</inceptionYear>
     <properties>
-        <easy.schema.version>1.13.5</easy.schema.version>
-        <easy.emd.version>1.x-SNAPSHOT</easy.emd.version>
+        <easy.schema.version>1.14.0</easy.schema.version>
+        <easy.emd.version>3.7.0</easy.emd.version>
     </properties>
     <scm>
         <developerConnection>scm:git:https://github.com/DANS-KNAW/${project.artifactId}</developerConnection>
