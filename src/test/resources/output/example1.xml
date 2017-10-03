@@ -12,6 +12,7 @@
             <eas:surname>Aarden</eas:surname>
             <eas:organization>Utrecht University</eas:organization>
             <eas:entityId eas:scheme="DAI">123456789</eas:entityId>
+            <eas:role eas:scheme="DATACITE">Distributor</eas:role>
         </eas:creator>
     </emd:creator>
     <emd:subject>
@@ -28,6 +29,7 @@
             <eas:surname>Jansen</eas:surname>
             <eas:organization>Babylon b.v.</eas:organization>
             <eas:entityId eas:scheme="DAI">123456789</eas:entityId>
+            <eas:role eas:scheme="DATACITE">Supervisor</eas:role>
         </eas:contributor>
     </emd:contributor>
     <emd:date>
