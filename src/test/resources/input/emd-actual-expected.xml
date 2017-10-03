@@ -28,10 +28,11 @@
             <eas:surname>Coen</eas:surname>
             <eas:organization>KNAW</eas:organization>
             <eas:entityId eas:scheme="DAI">93313935x</eas:entityId>
+            <eas:role eas:scheme="DATACITE">ContactPerson</eas:role>
         </eas:creator>
         <eas:creator>
             <eas:organization>DANS</eas:organization>
-            <eas:entityId/>
+            <eas:role eas:scheme="DATACITE">Sponsor</eas:role>
         </eas:creator>
         <eas:creator>
             <eas:title>MSc.</eas:title>
