@@ -17,6 +17,7 @@ package nl.knaw.dans.pf.language.ddm.api;
 
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.emd.binding.EmdMarshaller;
+import nl.knaw.dans.pf.language.emd.types.EmdConstants;
 import nl.knaw.dans.pf.language.xml.crosswalk.CrosswalkException;
 import nl.knaw.dans.pf.language.xml.exc.XMLSerializationException;
 import org.dom4j.tree.DefaultElement;
@@ -58,6 +59,110 @@ public class Ddm2EmdCrosswalkTest {
     }
 
     @Test
+    public void dcxIsniAuthor() throws Exception {
+        // @formatter:off
+        String ddm = "<?xml version='1.0' encoding='utf-8'?><ddm:DDM"
+            + "  xmlns:dc='http://purl.org/dc/elements/1.1/'"
+            + "  xmlns:dcx-dai='http://easy.dans.knaw.nl/schemas/dcx/dai/'"
+            + "  xmlns:ddm='http://easy.dans.knaw.nl/schemas/md/ddm/'"
+            + "  xmlns:dcterms='http://purl.org/dc/terms/'"
+            + "  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>"
+            + "  <ddm:profile>"
+            + "    <dcx-dai:creatorDetails>"
+            + "      <dcx-dai:author>"
+             + "      <dcx-dai:initials>X.I.</dcx-dai:initials>"
+            + "       <dcx-dai:surname>lastname</dcx-dai:surname>"
+            + "       <dcx-dai:ISNI>ISNI:000000012281955X</dcx-dai:ISNI>"
+            + "     </dcx-dai:author>"
+            + "   </dcx-dai:creatorDetails>"
+            + "  </ddm:profile>"
+            + "</ddm:DDM>";
+        // @formatter:on
+
+        DefaultElement top = firstEmdElementFrom(ddm);
+        assertThat(top.getQualifiedName(), is("emd:creator"));
+
+        DefaultElement sub = (DefaultElement) top.elements().get(0);
+        assertThat(sub.getQualifiedName(), is("eas:creator"));
+
+        List<DefaultElement> children = (List<DefaultElement>) sub.elements();
+
+        // we expect it to ignore the ISNI
+        assertThat(children.size(), is(2));
+        assertThat(children.get(0).getText(), is("X.I."));
+        assertThat(children.get(0).getName(), is("initials"));
+        assertThat(children.get(1).getText(), is("lastname"));
+    }
+
+    @Test
+    public void dcxDaiAuthor() throws Exception {
+        // @formatter:off
+        String ddm = "<?xml version='1.0' encoding='utf-8'?><ddm:DDM"
+            + "  xmlns:dc='http://purl.org/dc/elements/1.1/'"
+            + "  xmlns:dcx-dai='http://easy.dans.knaw.nl/schemas/dcx/dai/'"
+            + "  xmlns:ddm='http://easy.dans.knaw.nl/schemas/md/ddm/'"
+            + "  xmlns:dcterms='http://purl.org/dc/terms/'"
+            + "  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>"
+            + "  <ddm:profile>"
+            + "    <dcx-dai:creatorDetails>"
+            + "      <dcx-dai:author>"
+            + "      <dcx-dai:initials>X.I.</dcx-dai:initials>"
+            + "       <dcx-dai:surname>lastname</dcx-dai:surname>"
+            + "       <dcx-dai:DAI>info:eu-repo/dai/nl/9876543216</dcx-dai:DAI>"
+            + "     </dcx-dai:author>"
+            + "   </dcx-dai:creatorDetails>"
+            + "  </ddm:profile>"
+            + "</ddm:DDM>";
+        // @formatter:on
+
+        DefaultElement top = firstEmdElementFrom(ddm);
+        assertThat(top.getQualifiedName(), is("emd:creator"));
+
+        DefaultElement sub = (DefaultElement) top.elements().get(0);
+        assertThat(sub.getQualifiedName(), is("eas:creator"));
+
+        List<DefaultElement> children = (List<DefaultElement>) sub.elements();
+
+        // we expect it to convert the DAI
+        assertThat(children.size(), is(3));
+        assertThat(children.get(0).getText(), is("X.I."));
+        assertThat(children.get(0).getName(), is("initials"));
+        assertThat(children.get(1).getText(), is("lastname"));
+        assertThat(children.get(2).attributeCount(), is(1));
+        assertThat(children.get(2).attribute("scheme").getValue(), is(EmdConstants.SCHEME_DAI));
+        assertThat(children.get(2).getText(), is("info:eu-repo/dai/nl/9876543216"));
+    }
+
+    @Test
+    public void ddmDescriptionWithRequiredDescriptionType() throws Exception {
+        // @formatter:off
+        String ddm = "<?xml version='1.0' encoding='utf-8'?><ddm:DDM"
+            + "  xmlns:dc='http://purl.org/dc/elements/1.1/'"
+            + "  xmlns:ddm='http://easy.dans.knaw.nl/schemas/md/ddm/'"
+            + "  xmlns:dcterms='http://purl.org/dc/terms/'"
+            + "  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>"
+            + "  <ddm:profile>"
+            + "    <ddm:description ddm:descriptionType='Abstract'>abstract</ddm:description>"
+            + "    <dcterms:description>beschrijving</dcterms:description>"
+            + "  </ddm:profile>"
+            + "</ddm:DDM>";
+        // @formatter:on
+
+        DefaultElement top = firstEmdElementFrom(ddm);
+        assertThat(top.getQualifiedName(), is("emd:description"));
+        assertThat(top.elements().size(), is(2));
+
+        DefaultElement firstSub = (DefaultElement) top.elements().get(0);
+        assertThat(firstSub.getQualifiedName(), is("dc:description"));
+        assertThat(firstSub.getText(), is("abstract"));
+        assertThat(firstSub.attributeCount(), is(0));
+        DefaultElement secondSub = (DefaultElement) top.elements().get(1);
+        assertThat(secondSub.getQualifiedName(), is("dc:description"));
+        assertThat(secondSub.getText(), is("beschrijving"));
+        assertThat(secondSub.attributeCount(), is(0));
+    }
+
+    @Test
     public void identifierWithIdTypeEDNA() throws Exception {
         // @formatter:off
         String ddm = "<?xml version='1.0' encoding='utf-8'?><ddm:DDM"
@@ -83,6 +188,7 @@ public class Ddm2EmdCrosswalkTest {
         assertThat(sub.attribute("scheme").getValue(), is("eDNA-project"));
     }
 
+    @Test
     public void alternativeTitle() throws Exception {
         // @formatter:off
         String ddm = "<?xml version='1.0' encoding='utf-8'?><ddm:DDM"

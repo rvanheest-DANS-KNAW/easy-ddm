@@ -343,6 +343,7 @@ public class Ddm2EmdHandlerMap implements CrosswalkHandlerMap<EasyMetadata> {
         final BasicStringHandler descriptionHandler = new DescriptionHandler();
         map.put("/dc:description", descriptionHandler);
         map.put("/dcterms:description", descriptionHandler);
+        map.put("/ddm:description", descriptionHandler);
         // EasyMetadataImpl: EmdDescription emdDescription;
 
         final BasicStringHandler dcFormatHandler = new DcFormatHandler(false);
