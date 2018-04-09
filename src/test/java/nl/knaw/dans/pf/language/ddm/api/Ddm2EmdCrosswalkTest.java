@@ -134,7 +134,7 @@ public class Ddm2EmdCrosswalkTest {
     }
 
     @Test
-    public void ddmDescription() throws Exception {
+    public void ddmDescriptionWithRequiredDescriptionType() throws Exception {
         // @formatter:off
         String ddm = "<?xml version='1.0' encoding='utf-8'?><ddm:DDM"
             + "  xmlns:dc='http://purl.org/dc/elements/1.1/'"
