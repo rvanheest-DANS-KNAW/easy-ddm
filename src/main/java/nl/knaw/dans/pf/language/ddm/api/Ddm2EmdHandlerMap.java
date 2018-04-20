@@ -61,6 +61,11 @@ import nl.knaw.dans.pf.language.ddm.handlers.TermsTemporalHandler;
 import nl.knaw.dans.pf.language.ddm.handlers.TitleHandler;
 import nl.knaw.dans.pf.language.ddm.handlers.ArchisIdentifierHandler;
 import nl.knaw.dans.pf.language.ddm.handlers.IdentifierHandler;
+import nl.knaw.dans.pf.language.ddm.handlers.spatial.AbstractSpatialHandler;
+import nl.knaw.dans.pf.language.ddm.handlers.spatial.SpatialBoxHandler;
+import nl.knaw.dans.pf.language.ddm.handlers.spatial.SpatialMultiPolygonHandler;
+import nl.knaw.dans.pf.language.ddm.handlers.spatial.SpatialPointHandler;
+import nl.knaw.dans.pf.language.ddm.handlers.spatial.SpatialPolygonHandler;
 import nl.knaw.dans.pf.language.ddm.handlertypes.BasicDateHandler;
 import nl.knaw.dans.pf.language.ddm.handlertypes.BasicIdentifierHandler;
 import nl.knaw.dans.pf.language.ddm.handlertypes.BasicStringHandler;
@@ -417,11 +422,29 @@ public class Ddm2EmdHandlerMap implements CrosswalkHandlerMap<EasyMetadata> {
         map.put("/dcterms:coverage", dcCoverageHandler);
         // EasyMetadataImpl: EmdCoverage emdCoverage;
 
-        final EasSpatialHandler easSpatialHandler = new EasSpatialHandler();
+        Map<String, AbstractSpatialHandler> spatialSubHandlers = new HashMap<String, AbstractSpatialHandler>();
+
+        final SpatialPointHandler spatialPointHandler = new SpatialPointHandler();
+        spatialSubHandlers.put("Point", spatialPointHandler);
+
+        final SpatialBoxHandler spatialBoxHandler = new SpatialBoxHandler();
+        spatialSubHandlers.put("Envelope", spatialBoxHandler);
+
+        final SpatialPolygonHandler polygonHandler = new SpatialPolygonHandler();
+        spatialSubHandlers.put("Polygon", polygonHandler);
+
+        final SpatialMultiPolygonHandler multiPolygonHandler = new SpatialMultiPolygonHandler(polygonHandler);
+        spatialSubHandlers.put("MultiSurface", multiPolygonHandler);
+
+        final EasSpatialHandler easSpatialHandler = new EasSpatialHandler(spatialSubHandlers);
         map.put("/dcterms:spatial", new TermsSpatialHandler());
         map.put("ISO3166/dcterms:spatial", new TermsSpatialIso3166Handler());
         map.put("/dcx-gml:spatial", easSpatialHandler);
         map.put("SimpleGMLType/dcterms:spatial", easSpatialHandler);
+        map.put("/gml:Point", spatialPointHandler);
+        map.put("/gml:boundedBy", spatialBoxHandler);
+        map.put("/gml:Polygon", polygonHandler);
+        map.put("/gml:MultiSurface", multiPolygonHandler);
         // <ref-panelId>dcterms.spatial</ref-panelId>
         // <ref-panelId>eas.spatial.point</ref-panelId>
         // <ref-panelId>eas.spatial.box</ref-panelId>
