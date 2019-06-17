@@ -127,6 +127,7 @@ public class Ddm2EmdCrosswalkTest {
             { "temporalABR" },
             { "temporalPlainText" },
             { "typeWithSchemeAndId" },
+            { "typeWithAndWithoutSchemeAndId" },
         });
         // @formatter:on
     }
