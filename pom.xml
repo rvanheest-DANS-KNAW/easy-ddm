@@ -34,7 +34,8 @@
         <easy.emd.version>3.8.0</easy.emd.version>
     </properties>
     <scm>
-        <developerConnection>scm:git:https://github.com/DANS-KNAW/${project.artifactId}</developerConnection>
+        <!-- Attention project name != artifactId -->
+        <developerConnection>scm:git:https://github.com/DANS-KNAW/easy-ddm</developerConnection>
         <tag>HEAD</tag>
     </scm>
     <dependencies>
