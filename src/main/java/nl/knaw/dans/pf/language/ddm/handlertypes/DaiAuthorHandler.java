@@ -37,7 +37,7 @@ public abstract class DaiAuthorHandler extends CrosswalkHandler<EasyMetadata> {
         return setDAI(author, attribute);
     }
 
-    protected Author setDAI(final Author author, final String value) throws SAXException {
+    Author setDAI(final Author author, final String value) throws SAXException {
         if (value.startsWith("info")) {
             final String[] strings = value.split("/");
             final String entityId = strings[strings.length - 1];
@@ -46,7 +46,7 @@ public abstract class DaiAuthorHandler extends CrosswalkHandler<EasyMetadata> {
             author.setIdentificationSystem(toURI(idSys));
         } else {
             author.setEntityId(value, EmdConstants.SCHEME_DAI);
-            author.setIdentificationSystem(toURI("info:eu-repo/dai/nl/"));
+            author.setIdentificationSystem(toURI(DAI.DAI_NAMESPACE));
         }
         if (!DAI.isValid(author.getEntityId())) {
             error("invalid DAI " + author.getEntityId());
