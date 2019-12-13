@@ -17,16 +17,27 @@ package nl.knaw.dans.pf.language.ddm.handlertypes;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.regex.Pattern;
 
 import nl.knaw.dans.common.lang.id.DAI;
 import nl.knaw.dans.pf.language.emd.EasyMetadata;
 import nl.knaw.dans.pf.language.emd.types.Author;
 import nl.knaw.dans.pf.language.emd.types.EmdConstants;
+import nl.knaw.dans.pf.language.emd.types.EntityId;
 import nl.knaw.dans.pf.language.xml.crosswalk.CrosswalkHandler;
 
 import org.xml.sax.SAXException;
 
 public abstract class DaiAuthorHandler extends CrosswalkHandler<EasyMetadata> {
+
+    private static final Pattern isniStart1 = Pattern.compile("^http://isni.org/isni/");
+    private static final Pattern isniStart2 = Pattern.compile("^ISNI:");
+    private static final Pattern isniPattern1 = Pattern.compile("([0-9]){15,16}X{0,1}");
+    private static final Pattern isniPattern2 = Pattern.compile("([0-9]{4}[ ]{0,1}){3}[0-9]{3}[0-9xX]{1}");
+
+    private static final Pattern orcidStart = Pattern.compile("^https://orcid.org/");
+    private static final Pattern orcidPattern = Pattern.compile("([0-9]{4}-){3}[0-9]{3}[0-9xX]{0,1}");
+
     protected Author createDaiAuthor(final String uri, final String localName) throws SAXException {
         final String value = getCharsSinceStart().trim();
         final String attribute = getAttribute("", "DAI").trim();
@@ -42,17 +53,37 @@ public abstract class DaiAuthorHandler extends CrosswalkHandler<EasyMetadata> {
             final String[] strings = value.split("/");
             final String entityId = strings[strings.length - 1];
             final String idSys = value.replaceAll(entityId + "$", "");
-            author.setEntityId(entityId, EmdConstants.SCHEME_DAI);
-            author.setIdentificationSystem(toURI(idSys));
-        } else {
-            author.setEntityId(value, EmdConstants.SCHEME_DAI);
-            author.setIdentificationSystem(toURI(DAI.DAI_NAMESPACE));
+            EntityId entity = author.setEntityIdWithScheme(entityId, EmdConstants.SCHEME_DAI);
+            entity.setIdentificationSystem(toURI(idSys));
         }
+        else
+            author.setEntityIdWithScheme(value, EmdConstants.SCHEME_DAI);
+
         if (!DAI.isValid(author.getEntityId())) {
             error("invalid DAI " + author.getEntityId());
             return null;
         }
+
         return author;
+    }
+
+    void setISNI(final Author author, final String value) throws SAXException {
+        String strippedStart1 = isniStart1.matcher(value).replaceFirst("");
+        String entityId = isniStart2.matcher(strippedStart1).replaceFirst("");
+
+        if (isniPattern1.matcher(entityId).matches() || isniPattern2.matcher(entityId).matches())
+            author.setIsni(entityId.replaceAll("\\s", ""));
+        else
+            error("invalid ISNI " + entityId);
+    }
+
+    void setORCID(final Author author, final String value) throws SAXException {
+        String entityId = orcidStart.matcher(value).replaceFirst("");
+
+        if (orcidPattern.matcher(entityId).matches())
+            author.setOrcid(entityId);
+        else
+            error("invalid ORCID " + entityId);
     }
 
     private URI toURI(final String string) throws SAXException {
