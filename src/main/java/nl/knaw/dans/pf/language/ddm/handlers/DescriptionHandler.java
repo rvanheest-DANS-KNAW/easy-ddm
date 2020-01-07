@@ -26,7 +26,7 @@ public class DescriptionHandler extends BasicStringHandler {
     final BasicString basicString = createBasicString(uri, localName);
 
     if (basicString != null) {
-      String prefix = "Instructions for Reuse: ";
+      String prefix = "Suggestions for data usage: ";
       String value = basicString.getValue();
       String desciptionType = getAttribute("", "descriptionType");
       boolean isTechnicalDescription = desciptionType != null && desciptionType.equals("TechnicalInfo");
