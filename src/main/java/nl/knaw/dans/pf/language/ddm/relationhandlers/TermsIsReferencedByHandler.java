@@ -21,6 +21,15 @@ import nl.knaw.dans.pf.language.ddm.handlertypes.BasicIdentifierHandler;
 import nl.knaw.dans.pf.language.emd.types.BasicIdentifier;
 
 public class TermsIsReferencedByHandler extends BasicIdentifierHandler {
+
+    public TermsIsReferencedByHandler() {
+        this(null);
+    }
+
+    public TermsIsReferencedByHandler(String scheme) {
+        super(scheme);
+    }
+
     @Override
     public void finishElement(final String uri, final String localName) throws SAXException {
         final BasicIdentifier relation = createIdentifier(uri, localName);

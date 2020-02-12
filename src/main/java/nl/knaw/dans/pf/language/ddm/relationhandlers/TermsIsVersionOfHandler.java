@@ -21,6 +21,15 @@ import nl.knaw.dans.pf.language.emd.types.BasicIdentifier;
 import org.xml.sax.SAXException;
 
 public class TermsIsVersionOfHandler extends BasicIdentifierHandler {
+
+    public TermsIsVersionOfHandler() {
+        this(null);
+    }
+
+    public TermsIsVersionOfHandler(String scheme) {
+        super(scheme);
+    }
+
     @Override
     public void finishElement(final String uri, final String localName) throws SAXException {
         final BasicIdentifier relation = createIdentifier(uri, localName);
