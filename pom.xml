@@ -21,7 +21,7 @@
     <parent>
         <groupId>nl.knaw.dans.shared</groupId>
         <artifactId>dans-java-project</artifactId>
-        <version>5.1.0</version>
+        <version>6.0.1</version>
     </parent>
     <groupId>nl.knaw.dans.easy</groupId>
     <artifactId>ddm</artifactId>
@@ -29,9 +29,12 @@
     <name>DANS Dataset Metadata Library (DDM)</name>
     <inceptionYear>2014</inceptionYear>
     <properties>
+        <jibx-run.version>1.2.4.7-DANS</jibx-run.version>
+        
         <easy.schema.version>3.3.2</easy.schema.version>
         <easy.schema.examples.version>2.1.1</easy.schema.examples.version>
         <easy.emd.version>3.9.0</easy.emd.version>
+        <easy.xml.version>2.16</easy.xml.version>
     </properties>
     <scm>
         <!-- Attention project name != artifactId -->
@@ -55,39 +58,34 @@
         <dependency>
             <groupId>nl.knaw.dans.easy</groupId>
             <artifactId>xml</artifactId>
-            <version>2.16</version>
+            <version>${easy.xml.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jibx</groupId>
             <artifactId>jibx-run</artifactId>
-            <version>1.2.4.7-DANS</version>
+            <version>${jibx-run.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
         </dependency>
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-all</artifactId>
-            <version>1.3</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <scope>test</scope>
-            <version>1.1.1</version>
         </dependency>
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
-            <version>2.6</version>
         </dependency>
         <dependency>
             <groupId>jaxen</groupId>
             <artifactId>jaxen</artifactId>
-            <version>1.1.1</version>
             <exclusions>
                 <exclusion>
                     <artifactId>xercesImpl</artifactId>
@@ -134,7 +132,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>2.8</version>
                 <executions>
                     <execution>
                         <id>test-resources</id>
