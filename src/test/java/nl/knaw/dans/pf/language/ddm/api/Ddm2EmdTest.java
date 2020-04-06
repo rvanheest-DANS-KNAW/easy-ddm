@@ -166,6 +166,35 @@ public class Ddm2EmdTest {
     }
 
     @Test
+    public void fundingTest() throws Exception {
+        externalSchemaCheck();
+        String emdXmlExpected = "src/test/resources/input/emd-actual-expected.xml";
+        String ddmXml = "src/test/resources/input/funding.xml";
+        String emdXmlActual = "target/emd-actual.xml";
+        InputSource inputSourceEmdXmlExpected = new InputSource(emdXmlExpected);
+        XPath xpath = createXpathInstance();
+        // Conversion
+        EasyMetadata emd = crosswalk.createFrom(new File(ddmXml));
+        assertNotNull(emd);
+        String emdString = new EmdMarshaller(emd).getXmlString();
+        // Write the conversion result
+        Files.write(Paths.get(emdXmlActual), emdString.getBytes(StandardCharsets.UTF_8));
+        // Compare only the <emd:creator> element
+        InputSource inputSourceEmdXmlActual = new InputSource(emdXmlActual);
+        XPathExpression expr = xpath.compile(".//emd:contributor");
+        Object emdCreatorExpectedObject = expr.evaluate(inputSourceEmdXmlExpected, XPathConstants.NODESET);
+        NodeList emdCreatorExptectedNodeList = (NodeList) emdCreatorExpectedObject;
+        Object emdCreatorActualObject = expr.evaluate(inputSourceEmdXmlActual, XPathConstants.NODESET);
+        NodeList emdCreatorActualNodeList = (NodeList) emdCreatorActualObject;
+
+        for (int i = 0; i < emdCreatorExptectedNodeList.getLength(); i++) {
+            Node emdCreatorExptectedNode = emdCreatorExptectedNodeList.item(i);
+            Node emdCreatorActualNode = emdCreatorActualNodeList.item(i);
+            compareNodes(emdCreatorExptectedNode, emdCreatorActualNode);
+        }
+    }
+
+    @Test
     public void creatorTest() throws Exception {
         externalSchemaCheck();
         String emdXmlExpected = "src/test/resources/input/emd-actual-expected.xml";
